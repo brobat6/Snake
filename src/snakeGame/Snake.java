@@ -1,10 +1,10 @@
 package snakeGame;
 
-import javax.swing.JLabel;
+import javax.swing.*;
 
-public class Snake extends Game {
-	Snake(int snakeID) {
-		JLabel jl = new JLabel("Snake");
-		jf.add(jl);
+public class Snake extends Frame {
+	public Snake(int snakeID) {
+		JButton jb = new JButton("Snake");
+		jf.add(jb);
 	}
 }

@@ -1,25 +1,28 @@
 package snakeGame;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
-public class Board extends Game {
+//public class Board {
+//	private Game game;
+//	public Board(Game game) {
+//		this.game = game;
+//		game.setContentPane();
+//	}
+//}
+
+public class Board extends Frame {
 	private int difficulty;
 	private String username;
 	Snake snake;
 	Food food;
 
-	Board(int difficulty, String username, int snakeID, int foodID) {
+	public Board(int difficulty, String username, int snakeID, int foodID) {
 		this.difficulty = difficulty;
 		this.username = username;
 		snake = new Snake(snakeID);
 		food = new Food(foodID);
-		createGUI();
-	}
-	
-	void createGUI() {
-		jf = new JFrame("Hungry Snake Game");
-		jf.setSize(800, 600);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JLabel jl = new JLabel("Difficulty - " + difficulty);
+		jf.add(jl);
 		jf.setVisible(true);
 	}
 }

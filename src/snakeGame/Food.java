@@ -1,6 +1,8 @@
 package snakeGame;
 
-public class Food extends Game {
+import javax.swing.*;
+
+public class Food extends Frame {
 	Food(int foodID) {
 		
 	}
