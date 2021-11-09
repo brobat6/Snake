@@ -1,5 +1,7 @@
 package snakeGame;
 
-public class Food {
-
+public class Food extends Game {
+	Food(int foodID) {
+		
+	}
 }
