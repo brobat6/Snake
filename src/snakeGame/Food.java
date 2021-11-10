@@ -2,8 +2,10 @@ package snakeGame;
 
 import javax.swing.*;
 
-public class Food extends Frame {
-	Food(int foodID) {
-		
+public class Food {
+	private Cell pos;
+	
+	Food(Cell pos) {
+		this.pos = pos;
 	}
 }
