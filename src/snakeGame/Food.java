@@ -9,3 +9,6 @@ public class Food {
 		this.pos = pos;
 	}
 }
+
+
+// username - password - highscore.

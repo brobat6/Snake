@@ -2,8 +2,8 @@ package snakeGame;
 
 public class Direction {
 	private int right, left, up, down;
-	Direction() {
-		update(0, 0, 0, 0);
+	public Direction() {
+		update(0, 1, 0, -1);
 	}
 	private void update(int up, int right, int down, int left) {
 		this.up = up;
