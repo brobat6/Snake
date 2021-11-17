@@ -5,9 +5,14 @@ import java.util.*;
 public class Snake {
 	private LinkedList<Cell> list;
 	private Cell head;
+	private Direction direction;
 	
 	public Snake() {
 		list = new LinkedList<Cell>();
+		initSnake();
+		direction = new Direction();
+	}
+	private void initSnake() {
 		head = new Cell(100, 100);
 		list.add(head);
 		list.add(new Cell(80, 100));

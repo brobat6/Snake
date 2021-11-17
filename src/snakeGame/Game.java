@@ -7,17 +7,16 @@ import java.awt.event.*;
 import javax.swing.Timer;
 
 public class Game extends JPanel implements ActionListener {
-//	Direction direction;
 	private Snake snake;
 	private Timer timer;
 	private final int DELAY = 200;
 	
 	public Game() {
-		addKeyListener(new MyKeyAdapter());
+//		addKeyListener(new MyKeyAdapter());
 		setBackground(Color.black);
 		snake = new Snake();
-		timer = new Timer(DELAY, this);
-		timer.start();
+//		timer = new Timer(DELAY, this);
+//		timer.start();
 	}
 	
 	@Override
@@ -32,8 +31,6 @@ public class Game extends JPanel implements ActionListener {
 			g.fillRect(part.getRow(), part.getCol(), 15, 15);
 		}
 		Toolkit.getDefaultToolkit().sync();
-//		snake.move(new Cell(snake.getHead().getRow() + 1, snake.getHead().getCol()));
-//		repaint();
 	}
 	
 	@Override
@@ -42,14 +39,14 @@ public class Game extends JPanel implements ActionListener {
 		repaint();
 	}
 	
-	private class MyKeyAdapter extends KeyAdapter {
-		@Override
-		public void keyPressed(KeyEvent e) {
-			int key = e.getKeyCode();
+//	private class MyKeyAdapter extends KeyAdapter {
+//		@Override
+//		public void keyPressed(KeyEvent e) {
+//			int key = e.getKeyCode();
 //			if(key == KeyEvent.VK_UP) direction.setDirection('U');
 //			if(key == KeyEvent.VK_RIGHT) direction.setDirection('R');
 //			if(key == KeyEvent.VK_DOWN) direction.setDirection('D');
 //			if(key == KeyEvent.VK_LEFT) direction.setDirection('L');
-		}
-	}
+//		}
+//	}
 }
