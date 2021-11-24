@@ -13,10 +13,10 @@ public class Snake {
 		direction = new Direction();
 	}
 	private void initSnake() {
-		head = new Cell(105, 105);
+		head = new Cell(205, 165);
 		list.add(head);
-		list.add(new Cell(85, 105));
-		list.add(new Cell(65, 105));
+		list.add(new Cell(185, 165));
+		list.add(new Cell(165, 165));
 	}
 	public void grow(Cell next) {
 		head = next;
