@@ -13,27 +13,40 @@ public class Snake {
 		direction = new Direction();
 	}
 	private void initSnake() {
-		head = new Cell(100, 100);
+		head = new Cell(105, 105);
 		list.add(head);
-		list.add(new Cell(80, 100));
-		list.add(new Cell(60, 100));
+		list.add(new Cell(85, 105));
+		list.add(new Cell(65, 105));
 	}
-	public void grow() {
-		list.add(head);
+	public void grow(Cell next) {
+		head = next;
+		list.addFirst(head);
 	}
 	public void move(Cell next) {
 		list.removeLast();
 		head = next;
 		list.addFirst(head);
 	}
-//	public Cell getNext() {
-//		
-//	}
+	public void setDirection(char c) {
+		direction.setDirection(c);
+	}
+	public char getDirection() {
+		return direction.getDirection();
+	}
+	public Cell findNextCell() {
+		char c = direction.getDirection();
+//		THE ROW AND COL ARE CURRENTLY OPPOSITE!! Don't try to change, the code breaks if you do it.
+		if(c=='U') return new Cell(head.getRow(), head.getCol() - 20);
+		if(c=='R') return new Cell(head.getRow() + 20, head.getCol());
+		if(c=='D') return new Cell(head.getRow(), head.getCol() + 20);
+		if(c=='L') return new Cell(head.getRow() - 20, head.getCol());
+		return new Cell(0, 0); // Throw an exception for better code documentation.
+	}
 	public boolean isGoingToCrash(Cell next) {
-		if(next.getCol() < 0 || next.getCol() >= 600 || next.getRow() < 0 || next.getRow() >= 600) return true;
+		if(next.getCol() < 5 || next.getCol() >= 600 || next.getRow() < 5 || next.getRow() >= 600) return true;
 		for(Cell cell : list) {
 			if(cell == list.getLast()) continue;
-			if(cell == next) return true;
+			if(cell.equals(next)) return true;
 		}
 		return false;
 	}
