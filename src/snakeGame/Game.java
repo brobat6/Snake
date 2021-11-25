@@ -10,7 +10,7 @@ import javax.swing.Timer;
 public class Game extends JPanel implements ActionListener {
 	
 	private Snake snake;
-	private Timer timer;
+	private static Timer timer;
 	private final int DELAY_MAX = 150;
 	private final int DELAY_MIN = 25;
 	private Cell food;
@@ -20,14 +20,14 @@ public class Game extends JPanel implements ActionListener {
 	private int score;
 	
 	public Game() {
-		setBackground(Color.black);
-		setBorder(BorderFactory.createLineBorder(Color.red, 3));
 		timer = new Timer(DELAY_MAX, this);
 		timer.start();
 		startNewGame();
 	}
 	
-	private void startNewGame() {
+	public void startNewGame() {
+		setBackground(Color.black);
+		setBorder(BorderFactory.createLineBorder(Color.red, 3));
 		gameOver = false;
 		snake = new Snake();
 		generateFood();
@@ -91,6 +91,7 @@ public class Game extends JPanel implements ActionListener {
 		Cell next = snake.findNextCell();
 		if(snake.isGoingToCrash(next)) {
 			gameOver = true;
+//			DataBase.updateHighScores(difficulty, score);
 		}
 		else {
 			if(next.equals(food)) {
@@ -129,7 +130,16 @@ public class Game extends JPanel implements ActionListener {
 		System.out.println(imageSelector);
 		ImageIcon ii = new ImageIcon("src/resources/food" + imageSelector + ".png");
 		foodIcon = ii.getImage();
+//		foodIcon = foodIcon.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
 	}
+	
+	private void mainMenu() {
+		gameOver = false;
+		Main.jf.remove(this);
+		Main.mainMenu();
+	}
+	
+	
 	
 	private class CustomKeyListener implements KeyListener {
 		
@@ -152,7 +162,10 @@ public class Game extends JPanel implements ActionListener {
 				startNewGame();
 			}
 			if(key == KeyEvent.VK_ESCAPE && gameOver) {
-				System.exit(0);
+				mainMenu();
+//				gameOver = false;
+//				String args[] = new String[1];
+//				Main.main(args);
 			}
 		}
 		

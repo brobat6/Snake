@@ -43,6 +43,8 @@ public class Main {
 	
 	static JPanel highScoresPanel = new JPanel();
 	
+	static Game game = new Game();
+	
 	static void mainPage() {
 		
 		mainPagePanel.setLayout(null);
@@ -146,7 +148,6 @@ public class Main {
 		//ADD our names at bottom
 	}
 	static void mainMenu() {
-		
 		mainMenuPanel.setLayout(null);
 		jf.add(mainMenuPanel);
 		
@@ -156,7 +157,8 @@ public class Main {
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Game game = new Game();
+				
+				game.startNewGame();
 				jf.remove(mainMenuPanel);
 				jf.add(game);
 				game.setGameFocus();
