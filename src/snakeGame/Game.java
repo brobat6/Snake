@@ -14,22 +14,30 @@ public class Game extends JPanel implements ActionListener {
 	private final int DELAY_MAX = 150;
 	private final int DELAY_MIN = 25;
 	private Cell food;
-	final int SIZE = 30;
 	private boolean gameOver;
 	private Image foodIcon;
 	private int score;
+	private int difficulty;
+	private int size;
+	private int speed_increase;
 	
-	public Game() {
+	public Game(int difficulty) {
 		timer = new Timer(DELAY_MAX, this);
 		timer.start();
-		startNewGame();
+		startNewGame(difficulty);
 	}
 	
-	public void startNewGame() {
+	public void startNewGame(int difficulty) {
+		this.difficulty = difficulty;
+		switch(difficulty) {
+			case 0 : size = 20; speed_increase = 2; break;
+			case 1 : size = 30; speed_increase = 3; break;
+			case 2 : size = 50; speed_increase = 4; break;
+		}
 		setBackground(Color.black);
 		setBorder(BorderFactory.createLineBorder(Color.red, 3));
 		gameOver = false;
-		snake = new Snake();
+		snake = new Snake(difficulty);
 		generateFood();
 		score = 0;
 	}
@@ -44,10 +52,12 @@ public class Game extends JPanel implements ActionListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		if(gameOver) {
+			g.setColor(Color.black);
+			g.fillRect(5, 5, 615, 640);
 			String gameOverMessage = "Game Over";
 			String gameOverScore = "Your score is : " + score;
 			String gameOverRestart = "Press SPACE to play again.";
-			String gameOverExit = "Press ESC to exit the application.";
+			String gameOverExit = "Press ESC to return to main menu.";
 			Font big = new Font("Serif", Font.BOLD, 74);
 			Font medium = new Font("Courier", Font.BOLD, 32);
 			Font small = new Font("Arial", Font.BOLD, 22);
@@ -71,7 +81,7 @@ public class Game extends JPanel implements ActionListener {
 				if(part.equals(snake.getHead())) {
 					g.setColor(Color.red);
 				}
-				g.fillOval(part.getRow(), part.getCol(), 17, 17);
+				g.fillOval(part.getRow(), part.getCol(), size - 3, size - 3);
 			}
 		}
 		Toolkit.getDefaultToolkit().sync();
@@ -79,8 +89,8 @@ public class Game extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if(DELAY_MIN < DELAY_MAX - 4 * snake.getSnake().size()) {
-			timer.setDelay(DELAY_MAX - 4 * snake.getSnake().size());
+		if(DELAY_MIN < DELAY_MAX - speed_increase * snake.getSnake().size()) {
+			timer.setDelay(DELAY_MAX - speed_increase * snake.getSnake().size());
 		}
 		else {
 			timer.setDelay(DELAY_MIN);
@@ -91,7 +101,6 @@ public class Game extends JPanel implements ActionListener {
 		Cell next = snake.findNextCell();
 		if(snake.isGoingToCrash(next)) {
 			gameOver = true;
-//			DataBase.updateHighScores(difficulty, score);
 		}
 		else {
 			if(next.equals(food)) {
@@ -109,8 +118,8 @@ public class Game extends JPanel implements ActionListener {
 	
 	private void generateFood() {
 		while(true) {
-			int row = (int) (Math.random() * SIZE) * 20 + 5;
-			int col = (int) (Math.random() * SIZE) * 20 + 5;
+			int row = (int) (Math.random() * 600 / size) * size + 5;
+			int col = (int) (Math.random() * 600 / size) * size + 5;
 			food = new Cell(row, col);
 			boolean isPossible = true;
 			for(Cell cell : snake.getSnake()) {
@@ -127,17 +136,17 @@ public class Game extends JPanel implements ActionListener {
 		if(imageSelector < 1 || imageSelector > 8) {
 			imageSelector = 2;
 		}
-		System.out.println(imageSelector);
+//		System.out.println(imageSelector);
 		ImageIcon ii = new ImageIcon("src/resources/food" + imageSelector + ".png");
 		foodIcon = ii.getImage();
-//		foodIcon = foodIcon.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+		foodIcon = foodIcon.getScaledInstance(size, size, Image.SCALE_DEFAULT);
 	}
 	
-	private void mainMenu() {
-		gameOver = false;
-		Main.jf.remove(this);
-		Main.mainMenu();
-	}
+//	private void mainMenu() {
+//		gameOver = false;
+//		Main.jf.remove(this);
+//		Main.mainMenu();
+//	}
 	
 	
 	
@@ -159,14 +168,13 @@ public class Game extends JPanel implements ActionListener {
 				snake.setDirection('L');
 			}
 			if(key == KeyEvent.VK_SPACE && gameOver) {
-				startNewGame();
+				startNewGame(difficulty + 1);
+//				CHANGE THIS TO JUST (difficulty) LATER.
 			}
-			if(key == KeyEvent.VK_ESCAPE && gameOver) {
-				mainMenu();
-//				gameOver = false;
-//				String args[] = new String[1];
-//				Main.main(args);
+			if(key == KeyEvent.VK_TAB && gameOver) {
+				System.out.println("Tab was pressed.");
 			}
+			
 		}
 		
 		public void keyTyped(KeyEvent e) {}
