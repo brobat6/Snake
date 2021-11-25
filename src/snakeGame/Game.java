@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
 
+@SuppressWarnings("serial")
 public class Game extends JPanel implements ActionListener {
 	
 	private Snake snake;
@@ -15,15 +16,14 @@ public class Game extends JPanel implements ActionListener {
 	private Cell food;
 	final int SIZE = 30;
 	private boolean gameOver;
-//	private Image foodIcon;
+	private Image foodIcon;
+	private int score;
 	
 	public Game() {
 		setBackground(Color.black);
 		setBorder(BorderFactory.createLineBorder(Color.red, 3));
 		timer = new Timer(DELAY_MAX, this);
 		timer.start();
-//		ImageIcon ii = new ImageIcon("src/resources/Food.png");
-//		foodIcon = ii.getImage();
 		startNewGame();
 	}
 	
@@ -31,6 +31,7 @@ public class Game extends JPanel implements ActionListener {
 		gameOver = false;
 		snake = new Snake();
 		generateFood();
+		score = 0;
 	}
 	
 	public void setGameFocus() {
@@ -44,31 +45,32 @@ public class Game extends JPanel implements ActionListener {
 	protected void paintComponent(Graphics g) {
 		if(gameOver) {
 			String gameOverMessage = "Game Over";
-			String gameOverScore = "Your score is : " + snake.getSnake().size();
+			String gameOverScore = "Your score is : " + score;
 			String gameOverRestart = "Press SPACE to play again.";
+			String gameOverExit = "Press ESC to exit the application.";
 			Font big = new Font("Serif", Font.BOLD, 74);
 			Font medium = new Font("Courier", Font.BOLD, 32);
-			Font small = new Font("Arial", Font.BOLD, 26);
+			Font small = new Font("Arial", Font.BOLD, 22);
 			g.setColor(Color.green);
 			g.setFont(big);
 			g.drawString(gameOverMessage, 120, 220);
 			g.setFont(medium);
 			g.drawString(gameOverScore, 140, 300);
 			g.setFont(small);
-			g.drawString(gameOverRestart, 130, 380);
+			g.drawString(gameOverRestart, 145, 400);
+			g.drawString(gameOverExit, 115, 440);
 		}
 		else {
 			super.paintComponent(g);
 			g.setColor(Color.yellow);
-//			https://www.javatpoint.com/Graphics-in-applet
-			g.fillOval(food.getRow(), food.getCol(), 15, 15);
+//			https://www.javatpoint.com/Graphics-in-applets
+			g.drawImage(foodIcon, food.getRow(), food.getCol(), this);
 			LinkedList<Cell> snakeList = snake.getSnake();
 			for(Cell part : snakeList) {
 				g.setColor(Color.green);
 				if(part.equals(snake.getHead())) {
 					g.setColor(Color.red);
 				}
-//				g.fillRect(part.getRow(), part.getCol(), 15, 15);
 				g.fillOval(part.getRow(), part.getCol(), 17, 17);
 			}
 		}
@@ -92,6 +94,7 @@ public class Game extends JPanel implements ActionListener {
 		}
 		else {
 			if(next.equals(food)) {
+				score++;
 				generateFood();
 				snake.grow(next);
 				System.out.println("Found Food");
@@ -119,6 +122,13 @@ public class Game extends JPanel implements ActionListener {
 				break;
 			}
 		}
+		int imageSelector = (int) (Math.random() * 8);
+		if(imageSelector < 1 || imageSelector > 8) {
+			imageSelector = 2;
+		}
+		System.out.println(imageSelector);
+		ImageIcon ii = new ImageIcon("src/resources/food" + imageSelector + ".png");
+		foodIcon = ii.getImage();
 	}
 	
 	private class CustomKeyListener implements KeyListener {
@@ -140,6 +150,9 @@ public class Game extends JPanel implements ActionListener {
 			}
 			if(key == KeyEvent.VK_SPACE && gameOver) {
 				startNewGame();
+			}
+			if(key == KeyEvent.VK_ESCAPE && gameOver) {
+				System.exit(0);
 			}
 		}
 		

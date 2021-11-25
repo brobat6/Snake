@@ -35,7 +35,6 @@ public class Snake {
 	}
 	public Cell findNextCell() {
 		char c = direction.getDirection();
-//		THE ROW AND COL ARE CURRENTLY OPPOSITE!! Don't try to change, the code breaks if you do it.
 		if(c=='U') return new Cell(head.getRow(), head.getCol() - 20);
 		if(c=='R') return new Cell(head.getRow() + 20, head.getCol());
 		if(c=='D') return new Cell(head.getRow(), head.getCol() + 20);

@@ -161,7 +161,7 @@ public class Main {
 				jf.add(game);
 				game.setGameFocus();
 				jf.pack();
-				jf.setSize(620, 640);
+				jf.setSize(625, 650);
 				jf.setVisible(true);
 			}
 		});
